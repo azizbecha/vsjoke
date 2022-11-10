@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vsjoke.helloWorld"
+    "onCommand:vsjoke.getJoke"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "vsjoke.helloWorld",
-        "title": "Hello World"
+        "command": "vsjoke.getJoke",
+        "title": "Get Joke"
       }
     ]
   },
