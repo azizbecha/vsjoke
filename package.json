@@ -3,6 +3,7 @@
   "displayName": "vsjoke",
   "description": "Spreading Geeks jokes in VSCode",
   "version": "0.0.1",
+  "repository": "https://github.com/azizbecha/vsjoke",
   "engines": {
     "vscode": "^1.73.0"
   },
