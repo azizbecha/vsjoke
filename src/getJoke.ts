@@ -1,4 +1,4 @@
-import fetch, { Response } from 'node-fetch';
+import fetch from 'node-fetch';
 
 export const getJoke = async () => {
     const response = await fetch('https://v2.jokeapi.dev/joke/Programming');

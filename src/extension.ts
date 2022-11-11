@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 
 export function activate(context: vscode.ExtensionContext) {
+
 	let disposable = vscode.commands.registerCommand('vsjoke.getJoke', async () => {
 		const data: any = await getJoke();
 
@@ -18,4 +19,8 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate(context: vscode.ExtensionContext) {
+	context.subscriptions.push(vscode.commands.registerCommand('vsjoke.getJoke', async () => {
+		vscode.window.showErrorMessage("VSJoke is deactivated");
+	}));
+}
