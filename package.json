@@ -2,8 +2,9 @@
   "name": "vsjoke",
   "displayName": "vsjoke",
   "description": "Spreading Geeks jokes in VSCode",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/azizbecha/vsjoke",
+  "publisher": "azizbecha",
   "engines": {
     "vscode": "^1.73.0"
   },
