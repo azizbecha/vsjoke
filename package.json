@@ -1,9 +1,10 @@
 {
   "name": "vsjoke",
   "displayName": "vsjoke",
-  "description": "Spreading Geeks jokes in VSCode",
-  "version": "0.0.2",
+  "description": "Taking Programming Jokes to the moon 🚀",
+  "version": "0.0.3",
   "repository": "https://github.com/azizbecha/vsjoke",
+  "icon": "vsjoke.png",
   "publisher": "azizbecha",
   "engines": {
     "vscode": "^1.73.0"
@@ -12,17 +13,29 @@
     "Other"
   ],
   "activationEvents": [
+    "onView:vsjoke.jokeView",
     "onCommand:vsjoke.getJoke"
-  ],
+	],
   "main": "./dist/extension.js",
   "contributes": {
+    "views": {
+			"explorer": [
+				{
+					"type": "webview",
+					"id": "vsjoke.jokeView",
+					"name": "VSJoke"
+				}
+			]
+		},
     "commands": [
       {
-        "command": "vsjoke.getJoke",
-        "title": "Get Joke"
-      }
+				"command": "vsjoke.start",
+				"title": "Start cat coding session",
+				"category": "VSJoke"
+			}
     ]
   },
+  
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
