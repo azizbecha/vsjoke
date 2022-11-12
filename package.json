@@ -13,27 +13,24 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:vsjoke.jokeView",
-    "onCommand:vsjoke.getJoke"
+    "onCommand:vsjoke.start",
+		"onCommand:vsjoke.doRefactor",
+		"onWebviewPanel:vsjoke"
 	],
   "main": "./dist/extension.js",
   "contributes": {
-    "views": {
-			"explorer": [
-				{
-					"type": "webview",
-					"id": "vsjoke.jokeView",
-					"name": "VSJoke"
-				}
-			]
-		},
     "commands": [
-      {
+			{
 				"command": "vsjoke.start",
 				"title": "Start cat coding session",
-				"category": "VSJoke"
+				"category": "Cat Coding"
+			},
+			{
+				"command": "vsjoke.doRefactor",
+				"title": "Do some refactoring",
+				"category": "Cat Coding"
 			}
-    ]
+		]
   },
   
   "scripts": {
