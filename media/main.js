@@ -6,9 +6,9 @@
 
     const button = /** @type {HTMLElement} */ (document.getElementById('getjoke'));
     button.addEventListener('click', () => {
+        context.globalState.update('lastTagged', 'wa');
         vscode.postMessage({
-            command: 'alert',
-            text: 'waaa'
+            command: 'showJoke',
         });
     });
 

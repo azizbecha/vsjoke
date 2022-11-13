@@ -1,17 +1,25 @@
 import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
+import { LocalStorageService } from './localStorageService';
 
 export function activate(context: vscode.ExtensionContext) {
+	let storageManager = new LocalStorageService(context.workspaceState);
+
+	//Write your objects from the Workspace Store
+	storageManager.setValue("SomeObject", "ay bara ay");
+
+	//Read your objects to the Workspace Store
+	let x = storageManager.getValue("SomeObject");
 	context.subscriptions.push(
 		vscode.commands.registerCommand('vsjoke.start', async () => {
-			CatCodingPanel.createOrShow(context.extensionUri);
+			VSJokePanel.createOrShow(context.extensionUri);
 			
 			let data: any = await getJoke();
 
 			if (data.error === false){
 				const message = `${data.setup}\n${data.delivery}`;
-				const response = await vscode.window.showInformationMessage(message);
+				const response = await vscode.window.showInformationMessage(x);
 				console.log(response);
 			} else {
 				vscode.window.showErrorMessage("An error has been occured");
@@ -21,20 +29,20 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('vsjoke.doRefactor', () => {
-			if (CatCodingPanel.currentPanel) {
-				CatCodingPanel.currentPanel.doRefactor();
+			if (VSJokePanel.currentPanel) {
+				VSJokePanel.currentPanel.doRefactor();
 			}
 		})
 	);
 
 	if (vscode.window.registerWebviewPanelSerializer) {
 		// Make sure we register a serializer in activation event
-		vscode.window.registerWebviewPanelSerializer(CatCodingPanel.viewType, {
+		vscode.window.registerWebviewPanelSerializer(VSJokePanel.viewType, {
 			async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel, state: any) {
 				console.log(`Got state: ${state}`);
 				// Reset the webview options so we use latest uri for `localResourceRoots`.
 				webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
-				CatCodingPanel.revive(webviewPanel, context.extensionUri);
+				VSJokePanel.revive(webviewPanel, context.extensionUri);
 			}
 		});
 	}
@@ -50,11 +58,11 @@ function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
 	};
 }
 
-class CatCodingPanel {
+class VSJokePanel {
 	/**
 	 * Track the currently panel. Only allow a single panel to exist at a time.
 	 */
-	public static currentPanel: CatCodingPanel | undefined;
+	public static currentPanel: VSJokePanel | undefined;
 
 	public static readonly viewType = 'vsJoke';
 
@@ -68,24 +76,24 @@ class CatCodingPanel {
 			: undefined;
 
 		// If we already have a panel, show it.
-		if (CatCodingPanel.currentPanel) {
-			CatCodingPanel.currentPanel._panel.reveal(column);
+		if (VSJokePanel.currentPanel) {
+			VSJokePanel.currentPanel._panel.reveal(column);
 			return;
 		}
 
 		// Otherwise, create a new panel.
 		const panel = vscode.window.createWebviewPanel(
-			CatCodingPanel.viewType,
+			VSJokePanel.viewType,
 			'VSJoke',
 			vscode.ViewColumn.One,
 			getWebviewOptions(extensionUri),
 		);
 
-		CatCodingPanel.currentPanel = new CatCodingPanel(panel, extensionUri);
+		VSJokePanel.currentPanel = new VSJokePanel(panel, extensionUri);
 	}
 
 	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-		CatCodingPanel.currentPanel = new CatCodingPanel(panel, extensionUri);
+		VSJokePanel.currentPanel = new VSJokePanel(panel, extensionUri);
 	}
 
 	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
@@ -105,9 +113,20 @@ class CatCodingPanel {
 		this._panel.webview.onDidReceiveMessage(
 			message => {
 				switch (message.command) {
-					case 'alert':
-						vscode.window.showErrorMessage(message.text);
-						return;
+					case 'showJoke':
+						getJoke().then((data) => {
+
+							if (data.error === false){
+								const message = `${data.setup}\n${data.delivery}`;
+
+								vscode.window.showInformationMessage(message);
+							} else {
+								vscode.window.showErrorMessage("An error has been occured");
+							}
+							vscode.window.showErrorMessage(message.text);
+							return;
+						});
+
 				}
 			},
 			null,
@@ -122,7 +141,7 @@ class CatCodingPanel {
 	}
 
 	public dispose() {
-		CatCodingPanel.currentPanel = undefined;
+		VSJokePanel.currentPanel = undefined;
 
 		// Clean up our resources
 		this._panel.dispose();
@@ -169,7 +188,7 @@ class CatCodingPanel {
 				<h1>VSJoke</h1>
 				<p>Taking Programming Jokes to the moon 🚀</p>
 				<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
-				<h1 id="lines-of-code-counter">0</h1>
+
 				<button id="getjoke">get joke</button>
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
