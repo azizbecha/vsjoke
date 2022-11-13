@@ -1,16 +1,9 @@
 import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
-import { LocalStorageService } from './localStorageService';
 
 export function activate(context: vscode.ExtensionContext) {
-	let storageManager = new LocalStorageService(context.workspaceState);
 
-	//Write your objects from the Workspace Store
-	storageManager.setValue("SomeObject", "ay bara ay");
-
-	//Read your objects to the Workspace Store
-	let x = storageManager.getValue("SomeObject");
 	context.subscriptions.push(
 		vscode.commands.registerCommand('vsjoke.start', async () => {
 			VSJokePanel.createOrShow(context.extensionUri);
@@ -19,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			if (data.error === false){
 				const message = `${data.setup}\n${data.delivery}`;
-				const response = await vscode.window.showInformationMessage(x);
+				const response = await vscode.window.showInformationMessage(message);
 				console.log(response);
 			} else {
 				vscode.window.showErrorMessage("An error has been occured");
