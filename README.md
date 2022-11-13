@@ -1,8 +1,11 @@
 <div align="center">
-<h1>VSJoke</h2> 
-<p>Taking Programming Jokes to the moon 🚀</p>
 
-<img src="https://user-images.githubusercontent.com/63454940/201515823-eab18016-29dc-4b56-b344-a72b26272c73.png" width="200" />
+  <a href="https://github.com/azizbecha/vsjoke">
+    <img src="https://user-images.githubusercontent.com/63454940/201515823-eab18016-29dc-4b56-b344-a72b26272c73.png" width="150" />
+  </a>
+
+  <h3 align="center">VSJoke</h3>
+  <p>Taking Programming Jokes to the moon 🚀</p>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
