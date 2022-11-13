@@ -14,25 +14,24 @@
   ],
   "activationEvents": [
     "onCommand:vsjoke.start",
-		"onCommand:vsjoke.doRefactor",
-		"onWebviewPanel:vsjoke"
-	],
+    "onCommand:vsjoke.doRefactor",
+    "onWebviewPanel:vsjoke"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-			{
-				"command": "vsjoke.start",
-				"title": "Start cat coding session",
-				"category": "Cat Coding"
-			},
-			{
-				"command": "vsjoke.doRefactor",
-				"title": "Do some refactoring",
-				"category": "Cat Coding"
-			}
-		]
+      {
+        "command": "vsjoke.start",
+        "title": "Start cat coding session",
+        "category": "Cat Coding"
+      },
+      {
+        "command": "vsjoke.doRefactor",
+        "title": "Do some refactoring",
+        "category": "Cat Coding"
+      }
+    ]
   },
-  
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
@@ -61,6 +60,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "node-fetch": "^3.3.0"
+    "axios": "^1.1.3"
   }
 }

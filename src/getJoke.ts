@@ -1,7 +1,6 @@
-import fetch from 'node-fetch';
+const axios = require("axios");
 
 export const getJoke = async () => {
-    const response = await fetch('https://v2.jokeapi.dev/joke/Programming');
-    const data = await response.json();
-    return data;
+    const res = await axios.get('https://v2.jokeapi.dev/joke/Programming');
+    return res.data;
 };

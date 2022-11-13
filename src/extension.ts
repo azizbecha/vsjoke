@@ -2,17 +2,12 @@ import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
 
-const cats = {
-	'Coding Cat': 'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
-	'Compiling Cat': 'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
-	'Testing Cat': 'https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif'
-};
-
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('vsjoke.start', async () => {
 			CatCodingPanel.createOrShow(context.extensionUri);
-			const data: any = await getJoke();
+			
+			let data: any = await getJoke();
 
 			if (data.error === false){
 				const message = `${data.setup}\n${data.delivery}`;
@@ -82,7 +77,7 @@ class CatCodingPanel {
 		const panel = vscode.window.createWebviewPanel(
 			CatCodingPanel.viewType,
 			'VSJoke',
-			column || vscode.ViewColumn.One,
+			vscode.ViewColumn.One,
 			getWebviewOptions(extensionUri),
 		);
 
@@ -175,6 +170,7 @@ class CatCodingPanel {
 				<p>Taking Programming Jokes to the moon 🚀</p>
 				<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
 				<h1 id="lines-of-code-counter">0</h1>
+				<button id="getjoke">get joke</button>
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
 			</html>`;
