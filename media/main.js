@@ -4,7 +4,7 @@
 (function () {
     const vscode = acquireVsCodeApi();
 
-    const button = /** @type {HTMLElement} */ (document.getElementById('getjoke'));
+    const button = document.getElementById('getjoke');
     const form = document.getElementById("form");
 
     button.addEventListener('click', () => {

@@ -188,7 +188,7 @@ class VSJokePanel {
 							<h2>Settings</h2>
 							<br />
 							<label>Language</label><br />
-							<select>
+							<select class="mt-1">
 								<option value="en">EN - English</option>
 								<option value="de">DE - german</option>
 								<option value="fr">FR - French</option>
@@ -199,13 +199,15 @@ class VSJokePanel {
 
 							<br /><br />
 							<label>Blacklisted flags</label><br />
-							<input type="checkbox" id="nsfw" value="nsfw"><label for="nsfw">NSFW</label><br />
-                            <input type="checkbox" id="religious" value="religious"><label for="religious">Religious</label><br />
-                            <input type="checkbox" id="political" value="political"><label for="political">Political</label><br />
+							<div class="mt-1">
+								<input type="checkbox" id="nsfw" value="nsfw"><label for="nsfw">NSFW</label><br />
+								<input type="checkbox" id="religious" value="religious"><label for="religious">Religious</label><br />
+								<input type="checkbox" id="political" value="political"><label for="political">Political</label><br />
 
-							<input type="checkbox" id="racist" value="racist"><label for="racist">Racist</label><br />
-                            <input type="checkbox" id="sexist" value="sexist"><label for="sexist">Sexist</label><br />
-                            <input type="checkbox" id="explicit" value="explicit"><label for="explicit">Explicit</label>
+								<input type="checkbox" id="racist" value="racist"><label for="racist">Racist</label><br />
+								<input type="checkbox" id="sexist" value="sexist"><label for="sexist">Sexist</label><br />
+								<input type="checkbox" id="explicit" value="explicit"><label for="explicit">Explicit</label>
+							</div>
 							<br><br>
 
 							<button type="submit">Save settings</button>

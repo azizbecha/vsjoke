@@ -12,6 +12,13 @@ h1 {
     font-weight: bold;
 }
 
+select {
+    padding: 5px 15px;
+    color: #fff;
+    background-color: #3c3c3c;
+    border-color: #3c3c3c;
+}
+
 .flex {
     display: flex;
     justify-content: space-around;
