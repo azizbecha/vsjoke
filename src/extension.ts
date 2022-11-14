@@ -179,13 +179,12 @@ class VSJokePanel {
 				<title>VSJoke</title>
 			</head>
 			<body>
-				<div class="w-100">
-					<h1>VSJoke</h1>
-					<p>Taking Programming Jokes to the moon 🚀</p>
-				</div>
+				<h1>VSJoke</h1>
+				<p>Taking Programming Jokes to the moon 🚀</p>
+				<hr />
 				<div class="flex">
 					<div class="w-50">
-						<form class="mt-1">
+						<form class="mt-1" method="post">
 							<h2>Settings</h2>
 							<br />
 							<label>Language</label><br />
