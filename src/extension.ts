@@ -184,7 +184,7 @@ class VSJokePanel {
 				<hr />
 				<div class="flex">
 					<div class="w-50">
-						<form class="mt-1" method="post">
+						<form class="mt-1" id="form" method="post">
 							<h2>Settings</h2>
 							<br />
 							<label>Language</label><br />

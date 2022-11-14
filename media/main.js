@@ -5,10 +5,16 @@
     const vscode = acquireVsCodeApi();
 
     const button = /** @type {HTMLElement} */ (document.getElementById('getjoke'));
+    const form = document.getElementById("form");
+
     button.addEventListener('click', () => {
         vscode.postMessage({
             command: 'showJoke',
         });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
     });
 
     // Handle messages sent from the extension to the webview
