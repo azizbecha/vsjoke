@@ -155,11 +155,11 @@ class VSJokePanel {
 		const scriptUri = webview.asWebviewUri(scriptPathOnDisk);
 
 		// Local path to css styles
-		const styleResetPath = vscode.Uri.joinPath(this._extensionUri, 'media', 'reset.css');
-		const stylesPathMainPath = vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css');
+		const stylesVscodePath = vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css');
+		const stylesPathMainPath= vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css');
 
 		// Uri to load styles into webview
-		const stylesResetUri = webview.asWebviewUri(styleResetPath);
+		const stylesResetUri = webview.asWebviewUri(stylesVscodePath);
 		const stylesMainUri = webview.asWebviewUri(stylesPathMainPath);
 
 		// Use a nonce to only allow specific scripts to be run
@@ -174,15 +174,50 @@ class VSJokePanel {
 
 				<link href="${stylesResetUri}" rel="stylesheet">
 				<link href="${stylesMainUri}" rel="stylesheet">
+				<link href="${stylesVscodePath}" rel="stylesheet">
 
 				<title>VSJoke</title>
 			</head>
 			<body>
-				<h1>VSJoke</h1>
-				<p>Taking Programming Jokes to the moon 🚀</p>
-				<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
+				<div class="w-100">
+					<h1>VSJoke</h1>
+					<p>Taking Programming Jokes to the moon 🚀</p>
+				</div>
+				<div class="flex">
+					<div class="w-50">
+						<form class="mt-1">
+							<h2>Settings</h2>
+							<br />
+							<label>Language</label><br />
+							<select>
+								<option value="en">EN - English</option>
+								<option value="de">DE - german</option>
+								<option value="fr">FR - French</option>
+								<option value="es">ES - Spanish</option>
+								<option value="pt">PT - Portuguese</option>
+								<option value="cs">CS - Czech</option>
+							</select>
 
-				<button id="getjoke">get joke</button>
+							<br /><br />
+							<label>Blacklisted flags</label><br />
+							<input type="checkbox" id="nsfw" value="nsfw"><label for="nsfw">NSFW</label><br />
+                            <input type="checkbox" id="religious" value="religious"><label for="religious">Religious</label><br />
+                            <input type="checkbox" id="political" value="political"><label for="political">Political</label><br />
+
+							<input type="checkbox" id="racist" value="racist"><label for="racist">Racist</label><br />
+                            <input type="checkbox" id="sexist" value="sexist"><label for="sexist">Sexist</label><br />
+                            <input type="checkbox" id="explicit" value="explicit"><label for="explicit">Explicit</label>
+							<br><br>
+
+							<button type="submit">Save settings</button>
+						</form>
+					</div>
+					<div class="w-50 ml-1">
+						<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
+
+						<button id="getjoke">Get Joke</button>
+					</div>
+				</div>
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
 			</html>`;
