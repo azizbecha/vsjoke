@@ -15,17 +15,20 @@
 
 </div>
 
-
 ### What is VSJoke
+
 It's simply a VSCode extension made for humour purposes by showing some random programming-related jokes to the user.
 
 ### How it works
+
 VSJoke works as a webview, and every action/event will be detected by the `main.js` file and send requests to the [Joke API](https://v2.jokeapi.dev/) depends on the filer.
 
 ### How to install
+
 It's pretty easy, like any other VSCode extension.
 Just go to the extensions section in your IDE, search for `vsjoke`, click on the first one, hit install and here you go 🚀
 
+[or click this link to install](https://marketplace.visualstudio.com/items?itemName=azizbecha.vsjoke)
 
 [contributors-shield]: https://img.shields.io/github/contributors/azizbecha/vsjoke.svg?style=for-the-badge
 [contributors-url]: https://github.com/azizbecha/vsjoke/graphs/contributors
