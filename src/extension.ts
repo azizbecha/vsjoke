@@ -1,9 +1,7 @@
 import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
-
-const fs = require("fs");
-const path = require("path");
+import { readSettings } from './readSettings';
 
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
@@ -15,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
 				const response = await vscode.window.showInformationMessage(message);
 				console.log(response);
 			} else {
-				vscode.window.showErrorMessage("An error has been occured");
+				vscode.window.showErrorMessage(`${data.additionalInfo}`);
 			}
 		})
 	);
@@ -160,15 +158,13 @@ class VSJokePanel {
 		const languages = [
 			{ name: 'English', prefix: 'en' },
 			{ name: 'German', prefix: 'de' },
-			{ name: 'French', prefix: 'fr' },
 			{ name: 'Spanish', prefix: 'es' },
-			{ name: 'Portuguese', prefix: 'pt' },
-			{ name: 'Czech', prefix: 'cs' },
+			// { name: 'French', prefix: 'fr' }, not available
+			// { name: 'Portuguese', prefix: 'pt' }, not available
+			// { name: 'Czech', prefix: 'cs' }, not available
 		];
 
-		// let content = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../package.json"), 'utf8'));
-		// content.expiry_date = 1;
-		// fs.writeFileSync(path.resolve(__dirname, "../package.json"), JSON.stringify(content, null, 4));
+		const settings = readSettings();
 
 		return `<!DOCTYPE html>
 			<html lang="en">
@@ -193,10 +189,10 @@ class VSJokePanel {
 							<h2>Settings</h2>
 							<br />
 							<label>Language</label><br />
-							<select value="" id="language" class="mt-1">
+							<select id="language" class="mt-1">
 								${
 									languages.map((language, key) => {
-										return `<option key="${key}" value="${language.prefix}">${language.name}</option>`;
+										return `<option ${language.prefix === settings.language && 'selected'} key="${key}" value="${language.prefix}">${language.name}</option>`;
 									})
 								}
 							</select>
