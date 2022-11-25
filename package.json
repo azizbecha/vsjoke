@@ -12,6 +12,7 @@
   "categories": [
     "Other"
   ],
+  "keywords": ["joke", "programming jokes", "memes", "coding memes"],
   "activationEvents": [
     "onCommand:vsjoke.getJoke",
     "onCommand:vsjoke.settings",
