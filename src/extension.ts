@@ -2,7 +2,8 @@ import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
 
-import * as ls from 'local-storage';
+const fs = require("fs");
+const path = require("path");
 
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
@@ -164,6 +165,10 @@ class VSJokePanel {
 			{ name: 'Portuguese', prefix: 'pt' },
 			{ name: 'Czech', prefix: 'cs' },
 		];
+
+		// let content = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../package.json"), 'utf8'));
+		// content.expiry_date = 1;
+		// fs.writeFileSync(path.resolve(__dirname, "../package.json"), JSON.stringify(content, null, 4));
 
 		return `<!DOCTYPE html>
 			<html lang="en">
