@@ -1,11 +1,11 @@
-// This script will be run within the webview itself
-// It cannot access the main VS Code APIs directly.
+'use strict';
 
 (function () {
     const vscode = acquireVsCodeApi();
 
     const button = document.getElementById('getjoke');
     const form = document.getElementById("form");
+    const languageSelector = document.getElementById("language");
 
     button.addEventListener('click', () => {
         vscode.postMessage({
@@ -15,16 +15,17 @@
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        vscode.postMessage({
+            command: 'updateSettings',
+        });
     });
 
     // Handle messages sent from the extension to the webview
     window.addEventListener('message', event => {
         const message = event.data; // The json data that the extension sent
-        switch (message.command) {
-            case 'refactor':
-                currentCount = Math.ceil(currentCount * 0.5);
-                counter.textContent = `${currentCount}`;
-                break;
-        }
+        
+        // switch (message.command) {
+            
+        // }
     });
 }());

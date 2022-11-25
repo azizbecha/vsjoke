@@ -2,12 +2,11 @@ import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
 
-export function activate(context: vscode.ExtensionContext) {
+import * as ls from 'local-storage';
 
+export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
-		vscode.commands.registerCommand('vsjoke.start', async () => {
-			VSJokePanel.createOrShow(context.extensionUri);
-			
+		vscode.commands.registerCommand('vsjoke.getJoke', async () => {
 			let data: any = await getJoke();
 
 			if (data.error === false){
@@ -21,12 +20,11 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('vsjoke.doRefactor', () => {
-			if (VSJokePanel.currentPanel) {
-				VSJokePanel.currentPanel.doRefactor();
-			}
+		vscode.commands.registerCommand('vsjoke.settings', async () => {			
+			VSJokePanel.createOrShow(context.extensionUri, context);
 		})
 	);
+
 
 	if (vscode.window.registerWebviewPanelSerializer) {
 		// Make sure we register a serializer in activation event
@@ -35,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 				console.log(`Got state: ${state}`);
 				// Reset the webview options so we use latest uri for `localResourceRoots`.
 				webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
-				VSJokePanel.revive(webviewPanel, context.extensionUri);
+				VSJokePanel.revive(webviewPanel, context.extensionUri, context);
 			}
 		});
 	}
@@ -45,16 +43,11 @@ function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
 	return {
 		// Enable javascript in the webview
 		enableScripts: true,
-
-		// And restrict the webview to only loading content from our extension's `media` directory.
-		localResourceRoots: [vscode.Uri.joinPath(extensionUri, 'media')]
 	};
 }
 
 class VSJokePanel {
-	/**
-	 * Track the currently panel. Only allow a single panel to exist at a time.
-	 */
+
 	public static currentPanel: VSJokePanel | undefined;
 
 	public static readonly viewType = 'vsJoke';
@@ -63,7 +56,7 @@ class VSJokePanel {
 	private readonly _extensionUri: vscode.Uri;
 	private _disposables: vscode.Disposable[] = [];
 
-	public static createOrShow(extensionUri: vscode.Uri) {
+	public static createOrShow(extensionUri: vscode.Uri, context: vscode.ExtensionContext) {
 		const column = vscode.window.activeTextEditor
 			? vscode.window.activeTextEditor.viewColumn
 			: undefined;
@@ -82,21 +75,22 @@ class VSJokePanel {
 			getWebviewOptions(extensionUri),
 		);
 
-		VSJokePanel.currentPanel = new VSJokePanel(panel, extensionUri);
+		VSJokePanel.currentPanel = new VSJokePanel(panel, extensionUri, context);
 	}
 
-	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-		VSJokePanel.currentPanel = new VSJokePanel(panel, extensionUri);
+	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, extensionContext: vscode.ExtensionContext) {
+		VSJokePanel.currentPanel = new VSJokePanel(panel, extensionUri, extensionContext);
 	}
 
-	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
+	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, context: vscode.ExtensionContext) {
 		this._panel = panel;
 		this._extensionUri = extensionUri;
 
 		// Set the webview's initial html content
 		//this._update();
 		this._panel.title = "VSJoke";
-		this._panel.webview.html = this._getHtmlForWebview(this._panel.webview, "VSJoke");
+		
+		this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
 
 		// Listen for when the panel is disposed
 		// This happens when the user closes the panel or when the panel is closed programmatically
@@ -107,7 +101,7 @@ class VSJokePanel {
 			message => {
 				switch (message.command) {
 					case 'showJoke':
-						getJoke().then((data) => {
+						getJoke().then((data: any) => {
 
 							if (data.error === false){
 								const message = `${data.setup}\n${data.delivery}`;
@@ -119,18 +113,14 @@ class VSJokePanel {
 							vscode.window.showErrorMessage(message.text);
 							return;
 						});
+					case 'updateSettings':
+						// Update settings
 
 				}
 			},
 			null,
 			this._disposables
 		);
-	}
-
-	public doRefactor() {
-		// Send a message to the webview webview.
-		// You can send any JSON serializable data.
-		this._panel.webview.postMessage({ command: 'refactor' });
 	}
 
 	public dispose() {
@@ -147,7 +137,8 @@ class VSJokePanel {
 		}
 	}
 
-	private _getHtmlForWebview(webview: vscode.Webview, catGifPath: string) {
+	private _getHtmlForWebview(webview: vscode.Webview) {
+
 		// Local path to main script run in the webview
 		const scriptPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js');
 
@@ -165,11 +156,20 @@ class VSJokePanel {
 		// Use a nonce to only allow specific scripts to be run
 		const nonce = getNonce();
 
+		const languages = [
+			{ name: 'English', prefix: 'en' },
+			{ name: 'German', prefix: 'de' },
+			{ name: 'French', prefix: 'fr' },
+			{ name: 'Spanish', prefix: 'es' },
+			{ name: 'Portuguese', prefix: 'pt' },
+			{ name: 'Czech', prefix: 'cs' },
+		];
+
 		return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
+				<meta http-equiv="Content-Security-Policy">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 				<link href="${stylesResetUri}" rel="stylesheet">
@@ -179,7 +179,7 @@ class VSJokePanel {
 				<title>VSJoke</title>
 			</head>
 			<body>
-				<h1>VSJoke</h1>
+				<h1>${ls.get('name')}</h1>
 				<p>Taking Programming Jokes to the moon 🚀</p>
 				<hr />
 				<div class="flex">
@@ -188,13 +188,12 @@ class VSJokePanel {
 							<h2>Settings</h2>
 							<br />
 							<label>Language</label><br />
-							<select class="mt-1">
-								<option value="en">EN - English</option>
-								<option value="de">DE - german</option>
-								<option value="fr">FR - French</option>
-								<option value="es">ES - Spanish</option>
-								<option value="pt">PT - Portuguese</option>
-								<option value="cs">CS - Czech</option>
+							<select value="" id="language" class="mt-1">
+								${
+									languages.map((language, key) => {
+										return `<option key="${key}" value="${language.prefix}">${language.name}</option>`;
+									})
+								}
 							</select>
 
 							<br /><br />
@@ -219,7 +218,7 @@ class VSJokePanel {
 						<button id="getjoke">Get Joke</button>
 					</div>
 				</div>
-				<script nonce="${nonce}" src="${scriptUri}"></script>
+				<script type="module" src="${scriptUri}"></script>
 			</body>
 			</html>`;
 	}
