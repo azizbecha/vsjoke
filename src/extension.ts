@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
 import { readSettings } from './readSettings';
+import { updateSettings } from './updateSettings';
 
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
@@ -101,7 +102,6 @@ class VSJokePanel {
 				switch (message.command) {
 					case 'showJoke':
 						getJoke().then((data: any) => {
-
 							if (data.error === false){
 								const message = `${data.setup}\n${data.delivery}`;
 
@@ -112,8 +112,13 @@ class VSJokePanel {
 							vscode.window.showErrorMessage(message.text);
 							return;
 						});
+						break;
 					case 'updateSettings':
-						vscode.window.showErrorMessage(message.language);
+						console.log(updateSettings(message.language));
+						updateSettings(message.language);
+						vscode.window.showInformationMessage("Settings updated successfully");
+						
+						break;
 
 				}
 			},
