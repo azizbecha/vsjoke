@@ -179,7 +179,7 @@ class VSJokePanel {
 				<title>VSJoke</title>
 			</head>
 			<body>
-				<h1>${ls.get('name')}</h1>
+				<h1>VSJoke</h1>
 				<p>Taking Programming Jokes to the moon 🚀</p>
 				<hr />
 				<div class="flex">
