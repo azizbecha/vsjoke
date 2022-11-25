@@ -17,6 +17,7 @@
         e.preventDefault();
         vscode.postMessage({
             command: 'updateSettings',
+            language: languageSelector.value
         });
     });
 

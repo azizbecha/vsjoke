@@ -113,7 +113,7 @@ class VSJokePanel {
 							return;
 						});
 					case 'updateSettings':
-						// Update settings
+						vscode.window.showErrorMessage(message.language);
 
 				}
 			},
@@ -219,7 +219,7 @@ class VSJokePanel {
 						<button id="getjoke">Get Joke</button>
 					</div>
 				</div>
-				<script type="module" src="${scriptUri}"></script>
+				<script nonce="${nonce}" type="module" src="${scriptUri}"></script>
 			</body>
 			</html>`;
 	}
