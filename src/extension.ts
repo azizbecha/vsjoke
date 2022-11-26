@@ -114,8 +114,7 @@ class VSJokePanel {
 						});
 						break;
 					case 'updateSettings':
-						console.log(updateSettings(message.language));
-						updateSettings(message.language);
+						updateSettings(message.language, message.flags);
 						vscode.window.showInformationMessage("Settings updated successfully");
 						
 						break;
@@ -164,9 +163,15 @@ class VSJokePanel {
 			{ name: 'English', prefix: 'en' },
 			{ name: 'German', prefix: 'de' },
 			{ name: 'Spanish', prefix: 'es' },
-			// { name: 'French', prefix: 'fr' }, not available
-			// { name: 'Portuguese', prefix: 'pt' }, not available
-			// { name: 'Czech', prefix: 'cs' }, not available
+		];
+
+		const flags = [
+			{ name: 'NSFW', prefix: 'nsfw' },
+			{ name: 'Religious', prefix: 'religious' },
+			{ name: 'Political', prefix: 'political' },
+			{ name: 'Racist', prefix: 'racist' },
+			{ name: 'Sexist', prefix: 'sexist' },
+			{ name: 'Explicit', prefix: 'explict' }
 		];
 
 		const settings = readSettings();
@@ -198,22 +203,20 @@ class VSJokePanel {
 								${
 									languages.map((language, key) => {
 										return `<option ${language.prefix === settings.language && 'selected'} key="${key}" value="${language.prefix}">${language.name}</option>`;
-									})
+									}).join('')
 								}
 							</select>
 
 							<br /><br />
 							<label>Blacklisted flags</label><br />
 							<div class="mt-1">
-								<input type="checkbox" id="nsfw" value="nsfw"><label for="nsfw">NSFW</label><br />
-								<input type="checkbox" id="religious" value="religious"><label for="religious">Religious</label><br />
-								<input type="checkbox" id="political" value="political"><label for="political">Political</label><br />
-
-								<input type="checkbox" id="racist" value="racist"><label for="racist">Racist</label><br />
-								<input type="checkbox" id="sexist" value="sexist"><label for="sexist">Sexist</label><br />
-								<input type="checkbox" id="explicit" value="explicit"><label for="explicit">Explicit</label>
+								${
+									flags.map((flag, key) => {
+										return `<input key="${key}" ${settings.blacklistedFlags.includes(flag.prefix) && 'checked'} type="checkbox" name="flag" id="${flag.prefix}" value="${flag.prefix}"><label for="${flag.name}">${flag.name}</label><br />`;
+									}).join('')
+								}
 							</div>
-							<br><br>
+							<br>
 
 							<button type="submit">Save settings</button>
 						</form>

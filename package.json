@@ -18,7 +18,7 @@
     "memes",
     "coding memes"
   ],
-  "language": "en",
+  "language": "de",
   "blacklistedFlags": [],
   "activationEvents": [
     "onCommand:vsjoke.getJoke",
