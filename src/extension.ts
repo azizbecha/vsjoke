@@ -1,10 +1,21 @@
 import * as vscode from 'vscode';
+
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
 import { readSettings } from './readSettings';
 import { updateSettings } from './updateSettings';
 
+let myStatusBarItem: vscode.StatusBarItem;
+
 export function activate(context: vscode.ExtensionContext) {
+
+	myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	myStatusBarItem.command = 'vsjoke.getJoke';
+	myStatusBarItem.text = `$(smiley) Get Joke`;
+	myStatusBarItem.tooltip = "Click to Get a Joke";
+	context.subscriptions.push(myStatusBarItem);
+	myStatusBarItem.show();
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand('vsjoke.getJoke', async () => {
 			let data: any = await getJoke();

@@ -2,7 +2,7 @@
   "name": "vsjoke",
   "displayName": "vsjoke",
   "description": "Taking Programming Jokes to the moon 🚀",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "repository": "https://github.com/azizbecha/vsjoke",
   "icon": "vsjoke.png",
   "publisher": "azizbecha",
@@ -19,14 +19,9 @@
     "coding memes"
   ],
   "language": "en",
-  "blacklistedFlags": [
-    "political",
-    "explicit"
-  ],
+  "blacklistedFlags": [],
   "activationEvents": [
-    "onCommand:vsjoke.getJoke",
-    "onCommand:vsjoke.settings",
-    "onWebviewPanel:vsjoke"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {

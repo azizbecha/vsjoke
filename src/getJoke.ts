@@ -4,6 +4,7 @@ const axios = require("axios");
 
 export const getJoke = async () => {
     const { language, blacklistedFlags } = readSettings();
-    const res = await axios.get(`https://v2.jokeapi.dev/joke/Programming?type=twopart&lang=${language}${blacklistedFlags.length > 0 && `&blacklistFlags=${blacklistedFlags}`}`);
+    const link = `https://v2.jokeapi.dev/joke/Programming?type=twopart&lang=${language}&blacklistFlags=${blacklistedFlags && blacklistedFlags}`;
+    const res = await axios.get(link);
     return res.data;
 };
