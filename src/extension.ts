@@ -171,7 +171,7 @@ class VSJokePanel {
 			{ name: 'Political', prefix: 'political' },
 			{ name: 'Racist', prefix: 'racist' },
 			{ name: 'Sexist', prefix: 'sexist' },
-			{ name: 'Explicit', prefix: 'explict' }
+			{ name: 'Explicit', prefix: 'explicit' }
 		];
 
 		const settings = readSettings();
