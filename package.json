@@ -2,7 +2,7 @@
   "name": "vsjoke",
   "displayName": "vsjoke",
   "description": "Taking Programming Jokes to the moon 🚀",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": "https://github.com/azizbecha/vsjoke",
   "icon": "vsjoke.png",
   "publisher": "azizbecha",
@@ -20,6 +20,7 @@
   ],
   "language": "en",
   "blacklistedFlags": [
+    "political",
     "explicit"
   ],
   "activationEvents": [
