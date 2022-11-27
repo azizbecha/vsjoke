@@ -15,6 +15,8 @@ export function activate(context: vscode.ExtensionContext) {
 	myStatusBarItem.tooltip = "Click to Get a Joke";
 	context.subscriptions.push(myStatusBarItem);
 	myStatusBarItem.show();
+	
+	const latestVersion = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('vsjoke.getJoke', async () => {
@@ -197,7 +199,7 @@ class VSJokePanel {
 				<link href="${stylesResetUri}" rel="stylesheet">
 				<link href="${stylesMainUri}" rel="stylesheet">
 				<link href="${stylesVscodePath}" rel="stylesheet">
-
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 				<title>VSJoke</title>
 			</head>
 			<body>
@@ -207,9 +209,9 @@ class VSJokePanel {
 				<div class="flex">
 					<div class="w-50">
 						<form class="mt-1" id="form" method="post">
-							<h2>Settings</h2>
+							<h2><span class="fa fa-gear"></span> Settings</h2>
 							<br />
-							<label>Language</label><br />
+							<label><span class="fa fa-globe"></span> Language</label><br />
 							<select id="language" class="mt-1">
 								${
 									languages.map((language, key) => {
@@ -219,7 +221,7 @@ class VSJokePanel {
 							</select>
 
 							<br /><br />
-							<label>Blacklisted flags</label><br />
+							<label><span class="fa fa-ban"></span> Blacklisted flags</label><br />
 							<div class="mt-1">
 								${
 									flags.map((flag, key) => {
@@ -229,13 +231,13 @@ class VSJokePanel {
 							</div>
 							<br>
 
-							<button type="submit">Save settings</button>
+							<button type="submit"><span class="fa fa-save"></span> Save settings</button>
 						</form>
 					</div>
 					<div class="w-50 ml-1">
 						<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
 
-						<button id="getjoke">Get Joke</button>
+						<button id="getjoke"><span class="fa fa-laugh-squint"></span> Get Joke</button>
 					</div>
 				</div>
 				<script nonce="${nonce}" type="module" src="${scriptUri}"></script>
