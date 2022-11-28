@@ -6,7 +6,7 @@
     const button = document.getElementById('getjoke');
     const form = document.getElementById("form");
     const languageSelector = document.getElementById("language");
-    
+    const timingSelector = document.getElementById("timing");
 
     button.addEventListener('click', () => {
         vscode.postMessage({
@@ -20,7 +20,8 @@
         vscode.postMessage({
             command: 'updateSettings',
             language: languageSelector.value,
-            flags: blacklistedFlags
+            flags: blacklistedFlags,
+            timing: timingSelector.value
         });
     });
 

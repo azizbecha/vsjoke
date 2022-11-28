@@ -3,12 +3,14 @@ import * as vscode from 'vscode';
 import { getJoke } from './getJoke';
 import { getNonce } from './getNonce';
 import { readSettings } from './readSettings';
+import { timeToMilliseconds } from './timeToMilliseconds';
 import { updateSettings } from './updateSettings';
 
 let myStatusBarItem: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
 
+	// Status Bar Button
 	myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 	myStatusBarItem.command = 'vsjoke.getJoke';
 	myStatusBarItem.text = `$(smiley) Get Joke`;
@@ -16,24 +18,36 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(myStatusBarItem);
 	myStatusBarItem.show();
 	
-	const latestVersion = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
+	// const version = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
+
+	const { timing } = readSettings();
+	
+	const showJoke = async () => {
+		let data: any = await getJoke();
+	
+		if (data.error === false){
+			const message = `${data.setup}\n${data.delivery}`;
+			const response = await vscode.window.showInformationMessage(message);
+			console.log(response);
+		} else {
+			vscode.window.showErrorMessage(`${data.additionalInfo}`);
+		}
+	};
+
+	if (timing !== "None") {
+		setInterval(() => {
+			showJoke();
+		}, timeToMilliseconds(timing));
+	}
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('vsjoke.getJoke', async () => {
-			let data: any = await getJoke();
-
-			if (data.error === false){
-				const message = `${data.setup}\n${data.delivery}`;
-				const response = await vscode.window.showInformationMessage(message);
-				console.log(response);
-			} else {
-				vscode.window.showErrorMessage(`${data.additionalInfo}`);
-			}
+		vscode.commands.registerCommand('vsjoke.getJoke', () => {
+			showJoke();
 		})
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('vsjoke.settings', async () => {			
+		vscode.commands.registerCommand('vsjoke.settings', () => {			
 			VSJokePanel.createOrShow(context.extensionUri, context);
 		})
 	);
@@ -127,7 +141,7 @@ class VSJokePanel {
 						});
 						break;
 					case 'updateSettings':
-						updateSettings(message.language, message.flags);
+						updateSettings(message.language, message.flags, message.timing);
 						vscode.window.showInformationMessage("Settings updated successfully");
 						
 						break;
@@ -187,6 +201,8 @@ class VSJokePanel {
 			{ name: 'Explicit', prefix: 'explicit' }
 		];
 
+		const timings = ["None", "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "10 minutes", "15 minutes", " 30 minutes", " 1 hour"];
+
 		const settings = readSettings();
 
 		return `<!DOCTYPE html>
@@ -231,6 +247,17 @@ class VSJokePanel {
 							</div>
 							<br>
 
+							<label><span class="fa fa-clock"></span> Show Joke every</label><br />
+							<select id="timing" class="mt-1">
+								${
+									timings.map((timing, key) => {
+										return `<option ${timing === settings.timing && 'selected'} key="${key}" value="${timing}">${timing}</option>`;
+									}).join('')
+								}
+							</select>
+
+							<br /><br />
+							
 							<button type="submit"><span class="fa fa-save"></span> Save settings</button>
 						</form>
 					</div>
