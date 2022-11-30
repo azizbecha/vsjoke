@@ -20,7 +20,7 @@
   ],
   "language": "en",
   "blacklistedFlags": [],
-  "timing": "1 minute",
+  "timing": "15 minutes",
   "activationEvents": [
     "onStartupFinished"
   ],

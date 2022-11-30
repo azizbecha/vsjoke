@@ -6,17 +6,25 @@ import { readSettings } from './readSettings';
 import { timeToMilliseconds } from './timeToMilliseconds';
 import { updateSettings } from './updateSettings';
 
-let myStatusBarItem: vscode.StatusBarItem;
+let getJokeStatusBarButton: vscode.StatusBarItem;
+let openSettingsStatusBarButton: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
 
-	// Status Bar Button
-	myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-	myStatusBarItem.command = 'vsjoke.getJoke';
-	myStatusBarItem.text = `$(smiley) Get Joke`;
-	myStatusBarItem.tooltip = "Click to Get a Joke";
-	context.subscriptions.push(myStatusBarItem);
-	myStatusBarItem.show();
+	// Status Bar Buttons
+	getJokeStatusBarButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	getJokeStatusBarButton.command = 'vsjoke.getJoke';
+	getJokeStatusBarButton.text = `$(smiley) Get Joke`;
+	getJokeStatusBarButton.tooltip = "Click to Get a Joke";
+	context.subscriptions.push(getJokeStatusBarButton);
+	getJokeStatusBarButton.show();
+
+	openSettingsStatusBarButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 50);
+	openSettingsStatusBarButton.command = 'vsjoke.settings';
+	openSettingsStatusBarButton.text = `$(gear) VSJoke Settings`;
+	openSettingsStatusBarButton.tooltip = "Click to Open VSJoke Settings";
+	context.subscriptions.push(openSettingsStatusBarButton);
+	openSettingsStatusBarButton.show();
 	
 	// const version = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
 
