@@ -19,6 +19,10 @@ select {
     border-color: #3c3c3c;
 }
 
+a {
+    text-decoration: none;
+}
+
 .flex {
     display: flex;
     justify-content: space-around;

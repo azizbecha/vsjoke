@@ -275,6 +275,12 @@ class VSJokePanel {
 						<button id="getjoke"><span class="fa fa-laugh-squint"></span> Get Joke</button>
 					</div>
 				</div>
+				<br />
+				<p>Made with a lot of <i class="fa fa-heart"></i> & <i class="fa fa-coffee"></i> by Aziz Becha</p>
+				<ul class="mt-1">
+					<li><a href="https://github.com/azizbecha/vscode"><i class="fab fa-github"></i> GitHub</a></li>
+
+				</ul>
 				<script nonce="${nonce}" type="module" src="${scriptUri}"></script>
 			</body>
 			</html>`;
