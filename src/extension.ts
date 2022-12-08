@@ -270,7 +270,7 @@ class VSJokePanel {
 						</form>
 					</div>
 					<div class="w-50 ml-1">
-						<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
+						<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="355" />
 
 						<button id="getjoke"><span class="fa fa-laugh-squint"></span> Get Joke</button>
 					</div>
