@@ -212,6 +212,7 @@ class VSJokePanel {
 		const timings = ["None", "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "10 minutes", "15 minutes", " 30 minutes", " 1 hour"];
 
 		const settings = readSettings();
+		const version = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version
 
 		return `<!DOCTYPE html>
 			<html lang="en">
@@ -279,8 +280,9 @@ class VSJokePanel {
 				<p>Made with a lot of <i class="fa fa-heart"></i> & <i class="fa fa-coffee"></i> by Aziz Becha</p>
 				<ul class="mt-1">
 					<li><a href="https://github.com/azizbecha/vsjoke"><i class="fab fa-github"></i> GitHub</a></li>
-
 				</ul>
+				<br />
+				<p>Version: ${version}</p>
 				<script nonce="${nonce}" type="module" src="${scriptUri}"></script>
 			</body>
 			</html>`;
