@@ -122,8 +122,8 @@ class VSJokePanel {
 		this._extensionUri = extensionUri;
 
 		// Set the webview's initial html content
-		//this._update();
 		this._panel.title = "VSJoke";
+		this._panel.iconPath = vscode.Uri.joinPath(this._extensionUri, 'media', 'vsjoke.png');
 		
 		this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
 
@@ -212,9 +212,10 @@ class VSJokePanel {
 		const timings = ["None", "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "10 minutes", "15 minutes", " 30 minutes", " 1 hour"];
 
 		const settings = readSettings();
-		const version = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version
+		const version = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
 
-		return `<!DOCTYPE html>
+		return `
+		<!DOCTYPE html>
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
@@ -285,6 +286,6 @@ class VSJokePanel {
 				<p>Version: ${version}</p>
 				<script nonce="${nonce}" type="module" src="${scriptUri}"></script>
 			</body>
-			</html>`;
+		</html>`;
 	}
 }
