@@ -40,8 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(openSettingsStatusBarButton);
 	openSettingsStatusBarButton.show();
 	
-	// const version = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
-
 	const { timing } = readSettings();
 	
 	if (timing !== "None") {
@@ -145,7 +143,6 @@ class VSJokePanel {
 						vscode.window.showInformationMessage("Settings updated successfully");
 						
 						break;
-
 				}
 			},
 			null,
@@ -184,7 +181,7 @@ class VSJokePanel {
 		const stylesMainUri = webview.asWebviewUri(stylesPathMainPath);
 
 		// Use a nonce to only allow specific scripts to be run
-		const nonce = getNonce();
+		const nonce: string = getNonce();
 
 		const languages = [
 			{ name: 'English', prefix: 'en' },
@@ -201,10 +198,10 @@ class VSJokePanel {
 			{ name: 'Explicit', prefix: 'explicit' }
 		];
 
-		const timings = ["None", "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "10 minutes", "15 minutes", " 30 minutes", " 1 hour"];
+		const timings: string[] = ["None", "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "10 minutes", "15 minutes", " 30 minutes", " 1 hour"];
 
 		const settings = readSettings();
-		const version = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
+		const version: string = vscode.extensions.getExtension('azizbecha.vsjoke')?.packageJSON.version;
 
 		return `
 		<!DOCTYPE html>
