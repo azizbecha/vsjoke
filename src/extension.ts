@@ -9,6 +9,20 @@ import { updateSettings } from './updateSettings';
 let getJokeStatusBarButton: vscode.StatusBarItem;
 let openSettingsStatusBarButton: vscode.StatusBarItem;
 
+const showJoke = async () => {
+	let data: any = await getJoke();
+
+	if (data.error === false){
+		const message: string = `${data.setup}\n${data.delivery}`;
+		const response = await vscode.window.showInformationMessage(message, "Copy Joke");
+		if (response === "Copy Joke") {
+			vscode.env.clipboard.writeText(`${message}`);
+		}
+	} else {
+		vscode.window.showErrorMessage(`${data.additionalInfo}`);
+	}
+};
+
 export function activate(context: vscode.ExtensionContext) {
 
 	// Status Bar Buttons
@@ -30,18 +44,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const { timing } = readSettings();
 	
-	const showJoke = async () => {
-		let data: any = await getJoke();
-	
-		if (data.error === false){
-			const message = `${data.setup}\n${data.delivery}`;
-			const response = await vscode.window.showInformationMessage(message);
-			console.log(response);
-		} else {
-			vscode.window.showErrorMessage(`${data.additionalInfo}`);
-		}
-	};
-
 	if (timing !== "None") {
 		setInterval(() => {
 			showJoke();
@@ -136,17 +138,7 @@ class VSJokePanel {
 			message => {
 				switch (message.command) {
 					case 'showJoke':
-						getJoke().then((data: any) => {
-							if (data.error === false){
-								const message = `${data.setup}\n${data.delivery}`;
-
-								vscode.window.showInformationMessage(message);
-							} else {
-								vscode.window.showErrorMessage("An error has been occured");
-							}
-							vscode.window.showErrorMessage(message.text);
-							return;
-						});
+						showJoke();
 						break;
 					case 'updateSettings':
 						updateSettings(message.language, message.flags, message.timing);
